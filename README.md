@@ -1,27 +1,73 @@
-# NgBasicRoutes
+### ng-basic-routes simple angular app
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.4.
+#### Step-by-step
 
-## Development server
+- Generate 3 sample component (Home, About, Contact)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+  ```
+  $> ng generate component Home
+  $> ng generate component About
+  $> ng generate component Contact
+  ```
 
-## Code scaffolding
+- Import routes class type and router module in `app.module.ts`
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+  ```js
+  import { RouterModule, Routes } from "@angular/router";
+  ```
 
-## Build
+- Register routes
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+  ```js
+  import { RouterModule, Routes } from "@angular/router";
 
-## Running unit tests
+  const routes: Routes = [
+    { path: "", redirectTo: "home", pathMatch: "full" },
+    { path: "home", component: HomeComponent },
+    { path: "about", component: AboutComponent },
+    { path: "contact", component: ContactComponent }
+  ];
+  ```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- Then add the registered routes to import section also with the providers.
 
-## Running end-to-end tests
+  ```js
+  @NgModule({
+  declarations: [AppComponent, HomeComponent, AboutComponent, ContactComponent],
+  imports: [BrowserModule, AppRoutingModule, RouterModule.forRoot(routes)],
+  providers: [
+    {
+      provide: APP_BASE_HREF,
+      useValue: "/"
+    }
+  ],
+  bootstrap: [AppComponent]
+  })
+  ```
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+- Add navigation link
 
-## Further help
+  ```html
+  <ul>
+    <li><a [routerLink]="['/home']">Home</a></li>
+    <li><a [routerLink]="['/about']">About us</a></li>
+    <li><a [routerLink]="['/contact']">Contact Us</a></li>
+  </ul>
+  ```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+- Then add `<router-outlet>` tag. This tag is responsible to specify where the rendered component was render.
+
+  ```html
+  <h4>ng-basic-routes app</h4>
+  <ul>
+    <li><a [routerLink]="['/home']">Home</a></li>
+    <li><a [routerLink]="['/about']">About us</a></li>
+    <li><a [routerLink]="['/contact']">Contact Us</a></li>
+  </ul>
+
+  <router-outlet></router-outlet>
+  ```
+
+#### Deployment
+
+[https://ng-basic-routes.philiplambok.now.sh](https://ng-basic-routes.philiplambok.now.sh)
